@@ -26,6 +26,8 @@ export interface FormData {
   account_manager_name: string;
   
   // Step 3
+  monthly_goal: string;
+  main_result: string;
   metrics_data: string;
   highlight_kpis: KPI[];
   video_tone: string;
@@ -44,6 +46,8 @@ const VideoReportGenerator = () => {
     client_logo_url: '',
     reporting_period: '',
     account_manager_name: '',
+    monthly_goal: '',
+    main_result: '',
     metrics_data: '',
     highlight_kpis: [],
     video_tone: '',

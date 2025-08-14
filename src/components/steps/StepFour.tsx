@@ -30,6 +30,8 @@ export const StepFour: React.FC<StepFourProps> = ({ formData, prevStep }) => {
         clientLogo: formData.client_logo_url,
         reportPeriod: formData.reporting_period,
         accountManager: formData.account_manager_name,
+        monthlyGoal: formData.monthly_goal,
+        mainResult: formData.main_result,
         videoTone: formData.video_tone,
         metricsRaw: formData.metrics_data,
         highlightKPIs: formData.highlight_kpis,

@@ -23,6 +23,14 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
     
     const newErrors: Record<string, string> = {};
     
+    if (!formData.monthly_goal) {
+      newErrors.monthly_goal = 'Monthly goal is required';
+    }
+    
+    if (!formData.main_result) {
+      newErrors.main_result = 'Main result is required';
+    }
+    
     if (!formData.metrics_data) {
       newErrors.metrics_data = 'Campaign data is required';
     }
@@ -66,6 +74,55 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Monthly Goal */}
+        <Card className="shadow-scene">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Target className="w-5 h-5 text-primary" />
+              Monthly Goal
+            </CardTitle>
+            <CardDescription>
+              What was the main objective for this reporting period?
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              placeholder="e.g., Increase lead generation by 30% while maintaining cost efficiency"
+              value={formData.monthly_goal}
+              onChange={(e) => updateFormData({ monthly_goal: e.target.value })}
+              className={`min-h-[80px] ${errors.monthly_goal ? 'border-destructive' : ''}`}
+              rows={3}
+            />
+            {errors.monthly_goal && (
+              <p className="text-destructive text-sm mt-2">{errors.monthly_goal}</p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Main Result */}
+        <Card className="shadow-scene">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Target className="w-5 h-5 text-primary" />
+              Main Result
+            </CardTitle>
+            <CardDescription>
+              What was the key achievement or main outcome from this period?
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              placeholder="e.g., Exceeded lead generation target by 42% with improved cost per lead of $18.50"
+              value={formData.main_result}
+              onChange={(e) => updateFormData({ main_result: e.target.value })}
+              className={`min-h-[80px] ${errors.main_result ? 'border-destructive' : ''}`}
+              rows={3}
+            />
+            {errors.main_result && (
+              <p className="text-destructive text-sm mt-2">{errors.main_result}</p>
+            )}
+          </CardContent>
+        </Card>
         {/* Campaign Data */}
         <Card className="shadow-scene">
           <CardHeader className="pb-4">
@@ -74,7 +131,7 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
               Paste your raw campaign data
             </CardTitle>
             <CardDescription>
-              Paste data with columns separated by tabs or commas. The expected order is: Campaign Name, Platform, Budget, Impressions, Clicks, Conversions, ROAS.
+              Paste data with columns separated by tabs or commas. Expected order: Campaign Name, Platform, Budget, Impressions, Clicks, Conversions, ROAS, Leads, Followers, Interactions, Revenue (optional).
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -84,14 +141,14 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
                   <Info className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                   <div className="text-sm">
                     <p className="font-medium mb-1">Expected format:</p>
-                    <p className="text-muted-foreground">Campaign Name | Platform | Budget | Impressions | Clicks | Conversions | ROAS</p>
+                    <p className="text-muted-foreground">Campaign Name | Platform | Budget | Impressions | Clicks | Conversions | ROAS | Leads | Followers | Interactions | Revenue</p>
                   </div>
                 </div>
               </div>
               
               <Textarea
-                placeholder="Summer Sale | Meta Ads | 5000 | 150000 | 7500 | 300 | 4.5
-Q3 Lead Gen | Google Ads | 8000 | 250000 | 8500 | 450 | 5.1"
+                placeholder="Summer Sale | Meta Ads | 5000 | 150000 | 7500 | 300 | 4.5 | 250 | 25000 | 5000 | 22500
+Q3 Lead Gen | Google Ads | 8000 | 250000 | 8500 | 450 | 5.1 | 400 | 18000 | 3200 | 40800"
                 value={formData.metrics_data}
                 onChange={(e) => updateFormData({ metrics_data: e.target.value })}
                 className={`min-h-[120px] ${errors.metrics_data ? 'border-destructive' : ''}`}
