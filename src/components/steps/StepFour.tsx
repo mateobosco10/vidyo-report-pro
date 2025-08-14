@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Play, Mail, Building, User, Calendar, BarChart3, Palette, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Play, Mail, Building, User, Calendar, BarChart3, Palette, CheckCircle, Target } from 'lucide-react';
 import { FormData } from '../VideoReportGenerator';
 import { useToast } from '@/hooks/use-toast';
 
@@ -32,6 +32,7 @@ export const StepFour: React.FC<StepFourProps> = ({ formData, prevStep }) => {
         accountManager: formData.account_manager_name,
         videoTone: formData.video_tone,
         metricsRaw: formData.metrics_data,
+        highlightKPIs: formData.highlight_kpis,
         timestamp: new Date().toISOString(),
         triggered_from: 'video_report_generator'
       };
@@ -197,6 +198,12 @@ export const StepFour: React.FC<StepFourProps> = ({ formData, prevStep }) => {
             <div className="text-sm text-muted-foreground">
               {formData.metrics_data.split('\n').length} campaign(s) data provided
             </div>
+            {formData.highlight_kpis.length > 0 && (
+              <div className="flex items-center gap-2">
+                <Target className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm">{formData.highlight_kpis.length} KPI(s) to highlight</span>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

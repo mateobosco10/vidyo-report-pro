@@ -8,6 +8,11 @@ import { StepFour } from './steps/StepFour';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
 
+export interface KPI {
+  name: string;
+  value: string;
+}
+
 export interface FormData {
   // Step 1
   user_email: string;
@@ -22,6 +27,7 @@ export interface FormData {
   
   // Step 3
   metrics_data: string;
+  highlight_kpis: KPI[];
   video_tone: string;
   
   // Webhook (pre-configured)
@@ -39,6 +45,7 @@ const VideoReportGenerator = () => {
     reporting_period: '',
     account_manager_name: '',
     metrics_data: '',
+    highlight_kpis: [],
     video_tone: '',
     webhook_url: 'https://hooks.zapier.com/hooks/catch/5528813/u4krjb2/' // Pre-configured
   });
@@ -46,7 +53,7 @@ const VideoReportGenerator = () => {
   const steps = [
     { number: 1, title: "Basic Info", description: "Agency details" },
     { number: 2, title: "Client Info", description: "Client branding" },
-    { number: 3, title: "Campaign Data", description: "Metrics & tone" },
+    { number: 3, title: "Data & KPIs", description: "Metrics & tone" },
     { number: 4, title: "Generate", description: "Review & send" }
   ];
 

@@ -4,8 +4,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { BarChart3, Palette, ArrowLeft, Info } from 'lucide-react';
-import { FormData } from '../VideoReportGenerator';
+import { BarChart3, Palette, ArrowLeft, Info, Plus, Trash2, Target } from 'lucide-react';
+import { FormData, KPI } from '../VideoReportGenerator';
+import { Input } from '@/components/ui/input';
 
 interface StepThreeProps {
   formData: FormData;
@@ -58,10 +59,9 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Time for the data.</h2>
+        <h2 className="text-2xl font-semibold mb-2">Time for the data & KPIs.</h2>
         <p className="text-muted-foreground">
-          Paste your data directly from your spreadsheet. Ensure the columns are in the correct order so I can process them accurately. 
-          We will automatically calculate metrics like CTR and Conversion Rate for you.
+          Paste your data directly from your spreadsheet and provide the key performance indicators you want to highlight. We will automatically calculate metrics like CTR and Conversion Rate for you.
         </p>
       </div>
 
@@ -71,7 +71,7 @@ export const StepThree: React.FC<StepThreeProps> = ({ formData, updateFormData, 
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <BarChart3 className="w-5 h-5 text-primary" />
-              Upload Your Campaign Metrics
+              Paste your raw campaign data
             </CardTitle>
             <CardDescription>
               Paste data with columns separated by tabs or commas. The expected order is: Campaign Name, Platform, Budget, Impressions, Clicks, Conversions, ROAS.
@@ -99,6 +99,86 @@ Q3 Lead Gen | Google Ads | 8000 | 250000 | 8500 | 450 | 5.1"
               />
               {errors.metrics_data && (
                 <p className="text-destructive text-sm">{errors.metrics_data}</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* KPIs to Highlight */}
+        <Card className="shadow-scene">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Target className="w-5 h-5 text-primary" />
+              KPIs to Highlight
+            </CardTitle>
+            <CardDescription>
+              Select or type up to 3 KPIs to display in the video (e.g., Investment, Leads, ROI, Impressions, CTR, Engagement Rate, Traffic, Conversion Rate).
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {formData.highlight_kpis.map((kpi, index) => (
+                <div key={index} className="flex gap-3 items-start">
+                  <div className="flex-1 grid grid-cols-2 gap-3">
+                    <div>
+                      <Label htmlFor={`kpi-name-${index}`} className="text-sm font-medium">
+                        KPI Name
+                      </Label>
+                      <Input
+                        id={`kpi-name-${index}`}
+                        placeholder="e.g., ROI"
+                        value={kpi.name}
+                        onChange={(e) => {
+                          const newKpis = [...formData.highlight_kpis];
+                          newKpis[index] = { ...newKpis[index], name: e.target.value };
+                          updateFormData({ highlight_kpis: newKpis });
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor={`kpi-value-${index}`} className="text-sm font-medium">
+                        KPI Value
+                      </Label>
+                      <Input
+                        id={`kpi-value-${index}`}
+                        placeholder="e.g., 4.5x"
+                        value={kpi.value}
+                        onChange={(e) => {
+                          const newKpis = [...formData.highlight_kpis];
+                          newKpis[index] = { ...newKpis[index], value: e.target.value };
+                          updateFormData({ highlight_kpis: newKpis });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const newKpis = formData.highlight_kpis.filter((_, i) => i !== index);
+                      updateFormData({ highlight_kpis: newKpis });
+                    }}
+                    className="mt-6"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              ))}
+              
+              {formData.highlight_kpis.length < 3 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const newKpis = [...formData.highlight_kpis, { name: '', value: '' }];
+                    updateFormData({ highlight_kpis: newKpis });
+                  }}
+                  className="w-full"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add KPI ({formData.highlight_kpis.length}/3)
+                </Button>
               )}
             </div>
           </CardContent>
