@@ -9,8 +9,10 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
 
 export interface KPI {
+  type: string; // CPL, CTR, Conversion Rate, Engagement Rate, ROI/ROAS
   name: string;
   value: string;
+  inputData: Record<string, string>; // Store the input values for calculation
 }
 
 export interface FormData {
@@ -32,6 +34,15 @@ export interface FormData {
   highlight_kpis: KPI[];
   video_tone: string;
   
+  // Key Insights & Next Steps
+  best_campaign: string;
+  best_campaign_reason: string;
+  what_didnt_work: string;
+  user_behavior_changes: string;
+  next_period_improvements: string;
+  upcoming_campaigns: string;
+  strategic_recommendations: string;
+  
   // Webhook (pre-configured)
   webhook_url: string;
 }
@@ -51,6 +62,13 @@ const VideoReportGenerator = () => {
     metrics_data: '',
     highlight_kpis: [],
     video_tone: '',
+    best_campaign: '',
+    best_campaign_reason: '',
+    what_didnt_work: '',
+    user_behavior_changes: '',
+    next_period_improvements: '',
+    upcoming_campaigns: '',
+    strategic_recommendations: '',
     webhook_url: 'https://hooks.zapier.com/hooks/catch/5528813/u4krjb2/' // Pre-configured
   });
 
